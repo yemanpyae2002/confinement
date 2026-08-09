@@ -54,7 +54,7 @@ export default function HomePage() {
             "@type": "Organization",
             name: "ConfinementFinderSG",
             url: `${SITE}/`,
-            logo: `${SITE}/img/og-default.svg`,
+            logo: `${SITE}/img/logo.png`,
             areaServed: "SG",
           },
         ]}

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: listingTitle(l),
     description: listingDescription(l),
     path: l.url,
-    ogImage: l.has_photo ? `/img/${l.slug}.jpg` : "/img/og-default.svg",
+    ogImage: l.has_photo ? `/img/${l.slug}.jpg` : "/img/og-default.png",
   });
 }
 

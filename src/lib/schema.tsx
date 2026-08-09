@@ -103,7 +103,7 @@ export function articleLd(opts: {
     publisher: {
       "@type": "Organization",
       name: "ConfinementFinderSG",
-      logo: { "@type": "ImageObject", url: `${SITE}/img/og-default.svg` },
+      logo: { "@type": "ImageObject", url: `${SITE}/img/logo.png`, width: 512, height: 512 },
     },
   };
 }

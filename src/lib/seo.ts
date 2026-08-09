@@ -9,7 +9,7 @@ export function buildMetadata(opts: {
   ogType?: "website" | "article";
 }): Metadata {
   const url = `${SITE}${opts.path}`;
-  const image = opts.ogImage ? `${SITE}${opts.ogImage}` : `${SITE}/img/og-default.svg`;
+  const image = opts.ogImage ? `${SITE}${opts.ogImage}` : `${SITE}/img/og-default.png`;
   return {
     title: opts.title,
     description: opts.description,
@@ -20,7 +20,7 @@ export function buildMetadata(opts: {
       url,
       siteName: "ConfinementFinderSG",
       type: opts.ogType || "website",
-      images: [{ url: image }],
+      images: [{ url: image, width: 1200, height: 630, alt: opts.title }],
       locale: "en_SG",
     },
     twitter: {
