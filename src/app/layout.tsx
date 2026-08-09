@@ -1,36 +1,30 @@
 import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import { Analytics } from '@vercel/analytics/next';
-import CookieConsent from "@/components/Cookies";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { SITE } from "@/lib/listings";
 
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_PRODUCTNAME,
-  description: "The best way to build your SaaS product.",
+  metadataBase: new URL(SITE),
+  title: {
+    default: "ConfinementFinderSG — Find Your Perfect Confinement Centre",
+    template: "%s",
+  },
+  description:
+    "Compare verified confinement centres, nanny agencies, postnatal services and meal providers in Singapore.",
+  icons: { icon: "/favicon.svg" },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  let theme = process.env.NEXT_PUBLIC_THEME
-  if(!theme) {
-    theme = "theme-sass3"
-  }
-  const gaID = process.env.NEXT_PUBLIC_GOOGLE_TAG;
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-    <body className={theme}>
-      {children}
-      <Analytics />
-      <CookieConsent />
-      { gaID && (
-          <GoogleAnalytics gaId={gaID}/>
-      )}
-
-    </body>
+    <html lang="en-SG" className={poppins.variable}>
+      <body style={{ fontFamily: "var(--font-poppins), Poppins, sans-serif" }}>{children}</body>
     </html>
   );
 }

@@ -1,0 +1,114 @@
+{# ---------- shared components ---------- #}
+
+{% macro stars(rating, reviews) -%}
+<span class="rating"><span class="star">★</span> {{ "%.1f"|format(rating) }} <span class="cnt">({{ "{:,}".format(reviews) }} Google reviews)</span></span>
+{%- endmacro %}
+
+{% macro photo(l, cls='') -%}
+{% if l.has_photo %}<img src="/img/{{ l.slug }}.jpg" alt="{{ l.name }} — {{ l.cat_label|lower }} in {{ l.region }}, Singapore" width="640" height="400" loading="lazy">
+{% else %}<div class="ph" role="img" aria-label="{{ l.display_name }} — {{ l.cat_label|lower }} in {{ l.region }}, Singapore"><span class="ini">{{ l.initials }}</span><span class="lbl">{{ l.region }}</span></div>{% endif %}
+{%- endmacro %}
+
+{% macro card(l, compare=False) -%}
+<article class="card" data-listing data-region="{{ l.region }}" data-cat="{{ l.cat_label }}"
+         data-tags="{{ l.tags|join(',') }}" data-rating="{{ l.rating }}" data-reviews="{{ l.reviews }}"
+         data-name="{{ l.name }}">
+  <div class="card-media" data-c="{{ l.cat_label }}">{{ photo(l) }}</div>
+  <div class="card-body">
+    <div class="badges">
+      <span class="badge badge-region">{{ l.region }}</span>
+      <span class="badge badge-cat">{{ l.cat_label }}</span>
+    </div>
+    <h3><a href="{{ l.url }}">{{ l.display_name }}</a></h3>
+    {{ stars(l.rating, l.reviews) }}
+    <p class="teaser">{{ l.teaser }}</p>
+    {%- if compare %}
+    <label class="cmp"><input type="checkbox" data-cmp value="{{ l.slug }}" data-name="{{ l.display_name }}"> Add to compare</label>
+    {%- endif %}
+    <div class="card-actions">
+      <a class="btn btn-sm btn-ghost" href="{{ l.url }}">View details</a>
+      <a class="btn btn-sm" href="{{ l.url }}#enquire">Enquire</a>
+    </div>
+  </div>
+</article>
+{%- endmacro %}
+
+{% macro crumbs(items) -%}
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a>
+  {%- for it in items %}<span>›</span>{% if it.url %}<a href="{{ it.url }}">{{ it.name }}</a>{% else %}{{ it.name }}{% endif %}{% endfor %}
+</nav></div>
+{%- endmacro %}
+
+{% macro faq(items) -%}
+{% if items %}
+<h2>Frequently asked questions</h2>
+<div class="faq">
+  {%- for q in items %}
+  <details{% if loop.first %} open{% endif %}>
+    <summary>{{ q.q }}</summary>
+    <p>{{ q.a }}</p>
+  </details>
+  {%- endfor %}
+</div>
+{% endif %}
+{%- endmacro %}
+
+{# Web3Forms lead form. kind: 'enquiry' | 'match' | 'contact' | 'business' #}
+{% macro leadform(subject, hidden={}, heading='', hint='', button='Send my enquiry', compact=False, id='') -%}
+<form class="lead" data-w3f action="https://api.web3forms.com/submit" method="POST"{% if id %} id="{{ id }}"{% endif %}>
+  <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+  <input type="hidden" name="subject" value="{{ subject }}">
+  <input type="hidden" name="from_name" value="ConfinementFinderSG">
+  <input type="checkbox" name="botcheck" class="sr-only" style="display:none" tabindex="-1" autocomplete="off">
+  {%- for k, v in hidden.items() %}
+  <input type="hidden" name="{{ k }}" value="{{ v }}">
+  {%- endfor %}
+  {% if heading %}<h3>{{ heading }}</h3>{% endif %}
+  {% if hint %}<p class="hint">{{ hint }}</p>{% endif %}
+  <div class="form-fields">
+    <div class="field">
+      <label for="{{ id }}-name">Your name</label>
+      <input id="{{ id }}-name" type="text" name="name" required autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="{{ id }}-email">Email</label>
+      <input id="{{ id }}-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="{{ id }}-phone">Phone <span class="opt">(optional)</span></label>
+      <input id="{{ id }}-phone" type="tel" name="phone" autocomplete="tel">
+    </div>
+    <div class="field">
+      <label for="{{ id }}-due">Due month</label>
+      <input id="{{ id }}-due" type="month" name="due_month">
+    </div>
+    {%- if not compact %}
+    <div class="field">
+      <label for="{{ id }}-region">Preferred region</label>
+      <select id="{{ id }}-region" name="region">
+        <option value="">Any region</option>
+        {%- for r in REGIONS %}<option>{{ r }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="{{ id }}-budget">Budget range <span class="opt">(optional)</span></label>
+      <select id="{{ id }}-budget" name="budget">
+        <option value="">Not sure yet</option>
+        <option>Under S$10,000</option>
+        <option>S$10,000 – S$15,000</option>
+        <option>S$15,000 – S$20,000</option>
+        <option>Above S$20,000</option>
+      </select>
+    </div>
+    {%- endif %}
+    <div class="field">
+      <label for="{{ id }}-msg">Anything else? <span class="opt">(optional)</span></label>
+      <textarea id="{{ id }}-msg" name="message" rows="3"></textarea>
+    </div>
+  </div>
+  <button class="btn btn-block" type="submit">{{ button }}</button>
+  <div class="formstatus" role="status" aria-live="polite"></div>
+  <p class="privacy-note">We share your enquiry only with the provider(s) you ask about so they can reply. No spam, no selling your data. See our <a href="/privacy/">privacy policy</a>.</p>
+</form>
+{%- endmacro %}

@@ -1,226 +1,237 @@
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight, Globe, Shield, Users, Key, Database, Clock } from 'lucide-react';
-import AuthAwareButtons from '@/components/AuthAwareButtons';
-import HomePricing from "@/components/HomePricing";
+import Link from "next/link";
+import type { Metadata } from "next";
+import Header from "@/components/site/Header";
+import Footer from "@/components/site/Footer";
+import ListingCard from "@/components/site/ListingCard";
+import GetMatchedQuiz from "@/components/site/GetMatchedQuiz";
+import { SchemaScripts } from "@/lib/schema";
+import { buildMetadata } from "@/lib/seo";
+import {
+  REGIONS,
+  SITE,
+  allListings,
+  catCounts,
+  featuredListings,
+  regionCounts,
+  slugifyRegion,
+  BUILD_MONTH,
+} from "@/lib/listings";
+import { getAllPosts } from "@/lib/posts";
 
-export default function Home() {
-  const productName = process.env.NEXT_PUBLIC_PRODUCTNAME;
+export const metadata: Metadata = buildMetadata({
+  title: "ConfinementFinderSG — Find Your Perfect Confinement Centre",
+  description: `Compare ${allListings().length} verified confinement centres, nanny agencies, postnatal services and meal providers in Singapore. Honest price guidance, free enquiries.`,
+  path: "/",
+});
 
-  const features = [
-    {
-      icon: Shield,
-      title: 'Robust Authentication',
-      description: 'Secure login with email/password, Multi-Factor Authentication, and SSO providers',
-      color: 'text-green-600'
-    },
-    {
-      icon: Database,
-      title: 'File Management',
-      description: 'Built-in file storage with secure sharing, downloads, and granular permissions',
-      color: 'text-orange-600'
-    },
-    {
-      icon: Users,
-      title: 'User Settings',
-      description: 'Complete user management with password updates, MFA setup, and profile controls',
-      color: 'text-red-600'
-    },
-    {
-      icon: Clock,
-      title: 'Task Management',
-      description: 'Built-in todo system with real-time updates and priority management',
-      color: 'text-teal-600'
-    },
-    {
-      icon: Globe,
-      title: 'Legal Documents',
-      description: 'Pre-configured privacy policy, terms of service, and refund policy pages',
-      color: 'text-purple-600'
-    },
-    {
-      icon: Key,
-      title: 'Cookie Consent',
-      description: 'GDPR-compliant cookie consent system with customizable preferences',
-      color: 'text-blue-600'
-    }
-  ];
+export default function HomePage() {
+  const total = allListings().length;
+  const counts = regionCounts();
+  const cCounts = catCounts();
+  const featured = featuredListings(6);
+  const posts = getAllPosts().slice(0, 3);
 
-  const stats = [
-    { label: 'Active Users', value: '10K+' },
-    { label: 'Organizations', value: '2K+' },
-    { label: 'Countries', value: '50+' },
-    { label: 'Uptime', value: '99.9%' }
+  const needCards = [
+    { name: "Confinement Centres", url: "/confinement-centres/", count: cCounts["Confinement Centre"] },
+    { name: "Nanny Agencies", url: "/nanny-agencies/", count: cCounts["Nanny Agency"] },
+    { name: "Postnatal Services", url: "/postnatal-services/", count: cCounts["Postnatal Services"] },
+    { name: "Confinement Food", url: "/confinement-food/", count: cCounts["Confinement Food"] },
   ];
 
   return (
-      <div className="min-h-screen">
-        <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16 items-center">
-              <div className="flex-shrink-0">
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-500 bg-clip-text text-transparent">
-                {productName}
-              </span>
-              </div>
-              <div className="hidden md:flex items-center space-x-8">
-                <Link href="#features" className="text-gray-600 hover:text-gray-900">
-                  Features
-                </Link>
-
-                <Link href="#pricing" className="text-gray-600 hover:text-gray-900">
-                  Pricing
-                </Link>
-                <Link
-                    href="https://github.com/Razikus/supabase-nextjs-template"
-                    className="text-gray-600 hover:text-gray-900"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                  Documentation
-                </Link>
-
-                <Link
-                    href="https://github.com/Razikus/supabase-nextjs-template"
-                    className="bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                  Grab This Template
-                </Link>
-
-                <AuthAwareButtons variant="nav" />
-              </div>
-            </div>
-          </div>
-        </nav>
-
-        <section className="relative pt-32 pb-24 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-                Bootstrap Your SaaS
-                <span className="block text-primary-600">In 5 minutes</span>
-              </h1>
-              <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-                Launch your SaaS product in days, not months. Complete with authentication and enterprise-grade security built right in.
-              </p>
-              <div className="mt-10 flex gap-4 justify-center">
-
-                <AuthAwareButtons />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-4xl font-bold text-primary-600">{stat.value}</div>
-                    <div className="mt-2 text-sm text-gray-600">{stat.label}</div>
-                  </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section id="features" className="py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold">Everything You Need</h2>
-              <p className="mt-4 text-xl text-gray-600">
-                Built with modern technologies for reliability and speed
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                  <div
-                      key={index}
-                      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <feature.icon className={`h-8 w-8 ${feature.color}`} />
-                    <h3 className="mt-4 text-xl font-semibold">{feature.title}</h3>
-                    <p className="mt-2 text-gray-600">{feature.description}</p>
-                  </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <HomePricing />
-
-        <section className="py-24 bg-primary-600">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-white">
-              Ready to Transform Your Idea into Reality?
-            </h2>
-            <p className="mt-4 text-xl text-primary-100">
-              Join thousands of developers building their SaaS with {productName}
+    <>
+      <SchemaScripts
+        blocks={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "ConfinementFinderSG",
+            url: `${SITE}/`,
+            description: "Singapore directory of confinement centres, nannies and postnatal care.",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "ConfinementFinderSG",
+            url: `${SITE}/`,
+            logo: `${SITE}/img/og-default.svg`,
+            areaServed: "SG",
+          },
+        ]}
+      />
+      <Header active="home" />
+      <main id="main">
+        <section className="hero">
+          <div className="wrap">
+            <h1>Find your perfect confinement centre</h1>
+            <p className="sub">
+              Compare {total} verified confinement centres, nanny agencies, postnatal therapists and meal
+              services across Singapore — with honest price guidance and one free enquiry.
             </p>
-            <Link
-                href="/auth/register"
-                className="mt-8 inline-flex items-center px-6 py-3 rounded-lg bg-white text-primary-600 font-medium hover:bg-primary-50 transition-colors"
-            >
-              Get Started Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
+            <div className="region-pick">
+              {REGIONS.map((r) => (
+                <Link key={r} href={`/confinement-centres/${slugifyRegion(r)}/`}>
+                  {r} <span aria-hidden="true">·</span> {counts[r]}
+                </Link>
+              ))}
+            </div>
+            <div className="hero-cta">
+              <a className="btn" href="#get-matched">
+                Get matched free
+              </a>
+              <Link className="btn btn-ghost" href="/confinement-centres/">
+                Browse all listings
+              </Link>
+            </div>
           </div>
         </section>
 
-        <footer className="bg-gray-50 border-t border-gray-200">
-          <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900">Product</h4>
-                <ul className="mt-4 space-y-2">
-                  <li>
-                    <Link href="#features" className="text-gray-600 hover:text-gray-900">
-                      Features
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#pricing" className="text-gray-600 hover:text-gray-900">
-                      Pricing
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900">Resources</h4>
-                <ul className="mt-4 space-y-2">
-                  <li>
-                    <Link href="https://github.com/Razikus/supabase-nextjs-template" className="text-gray-600 hover:text-gray-900">
-                      Documentation
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900">Legal</h4>
-                <ul className="mt-4 space-y-2">
-                  <li>
-                    <Link href="/legal/privacy" className="text-gray-600 hover:text-gray-900">
-                      Privacy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/legal/terms" className="text-gray-600 hover:text-gray-900">
-                      Terms
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="mt-8 pt-8 border-t border-gray-200">
-              <p className="text-center text-gray-600">
-                © {new Date().getFullYear()} {productName}. All rights reserved.
+        <section className="sec sec-alt" id="get-matched">
+          <div className="wrap">
+            <div className="sec-head">
+              <h2>Not sure where to start? Answer 3 questions.</h2>
+              <p>
+                Tell us when you&apos;re due and what kind of help you want. We&apos;ll shortlist the right
+                providers and send your enquiry — free, and with no obligation.
               </p>
             </div>
+            <GetMatchedQuiz />
           </div>
-        </footer>
-      </div>
+        </section>
+
+        <section className="sec">
+          <div className="wrap">
+            <div className="sec-head">
+              <h2>Browse by region</h2>
+              <p>Most mums choose a centre close to home or to their parents. Start with your area.</p>
+            </div>
+            <div className="grid g5">
+              {REGIONS.map((r) => (
+                <Link className="tile" key={r} href={`/confinement-centres/${slugifyRegion(r)}/`}>
+                  <span className="n">{r}</span>
+                  <span className="c">
+                    {counts[r]} listing{counts[r] === 1 ? "" : "s"}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="sec sec-alt">
+          <div className="wrap">
+            <div className="sec-head">
+              <h2>Browse by what you need</h2>
+              <p>
+                Confinement care in Singapore comes in four main forms. They cost very differently —{" "}
+                <Link href="/costs/">see the price guide</Link>.
+              </p>
+            </div>
+            <div className="grid g4">
+              {needCards.map((c) => (
+                <Link className="tile" key={c.url} href={c.url}>
+                  <span className="n">{c.name}</span>
+                  <span className="c">
+                    {c.count} listing{c.count === 1 ? "" : "s"}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="sec">
+          <div className="wrap">
+            <div className="sec-head">
+              <h2>Featured providers</h2>
+              <p>
+                Well-established providers with a strong track record on Google. Listed for visibility, not
+                ranked as &ldquo;best&rdquo; — the right one depends on your budget and region.
+              </p>
+            </div>
+            <div className="grid g3">
+              {featured.map((l) => (
+                <ListingCard key={l.slug} l={l} />
+              ))}
+            </div>
+            <p style={{ textAlign: "center", marginTop: 28 }}>
+              <Link className="btn btn-ghost" href="/confinement-centres/">
+                See all {total} listings
+              </Link>
+            </p>
+          </div>
+        </section>
+
+        <section className="sec sec-alt">
+          <div className="wrap">
+            <div className="sec-head">
+              <h2>Why use ConfinementFinderSG instead of just Googling?</h2>
+            </div>
+            <div className="grid g4">
+              <div className="tile" style={{ textAlign: "left" }}>
+                <span className="n">Compare side by side</span>
+                <p className="c" style={{ marginTop: 8 }}>
+                  Put three centres next to each other — region, hours, rating, what they offer — instead of
+                  juggling 12 browser tabs.
+                </p>
+              </div>
+              <div className="tile" style={{ textAlign: "left" }}>
+                <span className="n">Honest price ranges</span>
+                <p className="c" style={{ marginTop: 8 }}>
+                  Most centres hide prices behind a form. Our <Link href="/costs/">cost guide</Link> tells you the
+                  realistic ranges before you enquire.
+                </p>
+              </div>
+              <div className="tile" style={{ textAlign: "left" }}>
+                <span className="n">Every listing described</span>
+                <p className="c" style={{ marginTop: 8 }}>
+                  Plain-English descriptions of who each provider suits — not just a pin on a map and a star
+                  rating.
+                </p>
+              </div>
+              <div className="tile" style={{ textAlign: "left" }}>
+                <span className="n">One enquiry, several replies</span>
+                <p className="c" style={{ marginTop: 8 }}>
+                  Fill in one short form and we pass it to your shortlist. No repeating your due date five times.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="sec">
+          <div className="wrap">
+            <div className="sec-head">
+              <h2>Start with these guides</h2>
+              <p>Written for third-trimester mums who want a straight answer.</p>
+            </div>
+            <div className="grid g3">
+              {posts.map((p) => (
+                <article className="card" key={p.slug}>
+                  <div className="card-body">
+                    <div className="badges">
+                      <span className="badge badge-cat">{p.category}</span>
+                    </div>
+                    <h3>
+                      <Link href={p.url}>{p.title}</Link>
+                    </h3>
+                    <p className="teaser">{p.excerpt}</p>
+                    <div className="card-actions">
+                      <Link className="btn btn-sm btn-ghost" href={p.url}>
+                        Read guide
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <p className="trust">
+              {total} verified listings · Updated {BUILD_MONTH} · Made in Singapore for Singapore mums
+            </p>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

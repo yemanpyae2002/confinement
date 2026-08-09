@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs([{'name':'Confinement centres'}]) }}
+
+<section class="wrap" style="padding-top:18px">
+  <h1>{{ h1 }}</h1>
+  <div class="prose">{{ intro|safe }}</div>
+</section>
+
+<section class="wrap" style="padding-bottom:60px">
+  <div class="filters" role="region" aria-label="Filter listings">
+    <div class="frow">
+      <span class="flab" id="f-region">Region</span>
+      {%- for r in REGIONS %}
+      <button class="pill" type="button" data-filter="region" data-value="{{ r }}" aria-pressed="false">{{ r }}</button>
+      {%- endfor %}
+    </div>
+    <div class="frow">
+      <span class="flab" id="f-type">Type</span>
+      {%- for c in CATS %}
+      <button class="pill" type="button" data-filter="cat" data-value="{{ c }}" aria-pressed="false">{{ c }}</button>
+      {%- endfor %}
+    </div>
+    {%- if all_tags %}
+    <div class="frow">
+      <span class="flab" id="f-feat">Features</span>
+      {%- for t in all_tags %}
+      <button class="pill" type="button" data-filter="tag" data-value="{{ t }}" aria-pressed="false">{{ t|tagname }}</button>
+      {%- endfor %}
+    </div>
+    {%- endif %}
+    <div class="fbar-foot">
+      <span class="count"><b id="count-n">{{ listings|length }}</b> of {{ listings|length }} listings shown
+        <button class="linkbtn" id="clear-filters" type="button" hidden>Clear filters</button></span>
+      <label>Sort:
+        <select class="sortsel" id="sort">
+          <option value="reviews">Most reviewed</option>
+          <option value="rating">Highest rated</option>
+          <option value="name">Name (A–Z)</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="grid g3" id="listing-grid">
+    {%- for l in listings %}{{ m.card(l, compare=True) }}{% endfor %}
+  </div>
+  <div class="no-results" id="no-results">
+    <h3>No listings match those filters</h3>
+    <p>Try removing a filter — or tell us what you need and we’ll find it for you.</p>
+    <a class="btn" href="/#get-matched">Get matched free</a>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap narrow">
+    {{ m.faq(faqs) }}
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap narrow">
+    <div class="form-card">
+      {{ m.leadform(
+          subject='Enquiry from All Listings — ConfinementFinderSG',
+          hidden={'lead_type':'all-listings'},
+          heading='Still not sure which to choose?',
+          hint='Tell us your due date, region and budget. We’ll shortlist 3–5 providers that genuinely fit and send your enquiry for you.',
+          button='Get my free shortlist', id='allform') }}
+    </div>
+  </div>
+</section>
+
+<div class="cmpbar" id="cmpbar">
+  <span>Comparing <b id="cmp-n">0</b> of 3<span class="names" id="cmp-names"></span></span>
+  <span>
+    <button class="linkbtn" id="cmp-clear" type="button" style="color:#fff;margin-right:12px">Clear</button>
+    <a class="btn btn-sm" id="cmp-go" href="/compare/">Compare now</a>
+  </span>
+</div>
+{% endblock %}

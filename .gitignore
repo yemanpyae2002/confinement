@@ -24,6 +24,17 @@
 .DS_Store
 *.pem
 
+# claude skills (local only)
+.claude
+
+# Python site-builder pipeline (source of truth for src/data/listings.json
+# and src/content/posts/*.md, not deployed itself — see confinementfindersg/README.md)
+confinementfindersg/.venv/
+confinementfindersg/.photocache/
+confinementfindersg/__pycache__/
+confinementfindersg/*.pyc
+confinementfindersg/site/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

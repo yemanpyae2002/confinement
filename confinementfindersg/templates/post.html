@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs([{'name':'Blog','url':'/blog/'},{'name':p.title}]) }}
+
+<article class="wrap" style="padding-top:18px;padding-bottom:56px">
+  <div class="prose">
+    <h1>{{ p.title }}</h1>
+    <p class="byline">By the ConfinementFinderSG Editorial Team · Reviewed {{ BUILD_MONTH }} · {{ p.reading_time }} min read</p>
+
+    {%- if p.toc %}
+    <nav class="toc" aria-label="Table of contents">
+      <p>On this page</p>
+      <ol>{% for h in p.toc %}<li><a href="#{{ h.id }}">{{ h.text }}</a></li>{% endfor %}</ol>
+    </nav>
+    {%- endif %}
+
+    {{ p.html|safe }}
+
+    {%- if p.faqs %}{{ m.faq(p.faqs) }}{% endif %}
+
+    <div class="authorbox">
+      <p><strong>About the authors:</strong> ConfinementFinderSG is an independent Singapore directory of confinement centres, nanny agencies, postnatal therapists and meal providers. We compile and verify every listing ourselves and publish indicative prices so families can compare before they enquire. <a href="/about/">How we build this directory →</a></p>
+    </div>
+
+    <div class="cta-box">
+      <h3>{{ p.cta_heading }}</h3>
+      <p>{{ p.cta_text }}</p>
+      <a class="btn" href="{{ p.cta_url }}">{{ p.cta_label }}</a>
+    </div>
+  </div>
+</article>
+
+{%- if p.related %}
+<section class="sec sec-alt">
+  <div class="wrap">
+    <h2 style="margin-top:0">Read next</h2>
+    <div class="grid g3">
+      {%- for r in p.related %}
+      <article class="card"><div class="card-body">
+        <div class="badges"><span class="badge badge-cat">{{ r.category }}</span></div>
+        <h3><a href="{{ r.url }}">{{ r.title }}</a></h3>
+        <p class="teaser">{{ r.excerpt }}</p>
+        <div class="card-actions"><a class="btn btn-sm btn-ghost" href="{{ r.url }}">Read guide</a></div>
+      </div></article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+{% endblock %}

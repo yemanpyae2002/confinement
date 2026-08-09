@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs(crumb_items) }}
+<section class="wrap" style="padding-top:18px;padding-bottom:56px">
+  <div class="prose">
+    <h1>{{ h1 }}</h1>
+    {{ body|safe }}
+    {%- if faqs %}{{ m.faq(faqs) }}{% endif %}
+  </div>
+  {%- if form %}
+  <div class="narrow" style="margin-top:36px">
+    <div class="form-card">{{ form|safe }}</div>
+  </div>
+  {%- endif %}
+</section>
+{% endblock %}

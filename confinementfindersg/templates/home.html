@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Find your perfect confinement centre</h1>
+    <p class="sub">Compare {{ total }} verified confinement centres, nanny agencies, postnatal therapists and meal services across Singapore — with honest price guidance and one free enquiry.</p>
+    <div class="region-pick">
+      {%- for r in REGIONS %}
+      <a href="/confinement-centres/{{ r|slug }}/">{{ r }} <span aria-hidden="true">·</span> {{ region_counts[r] }}</a>
+      {%- endfor %}
+    </div>
+    <div class="hero-cta">
+      <a class="btn" href="#get-matched">Get matched free</a>
+      <a class="btn btn-ghost" href="/confinement-centres/">Browse all listings</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-alt" id="get-matched">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Not sure where to start? Answer 3 questions.</h2>
+      <p>Tell us when you’re due and what kind of help you want. We’ll shortlist the right providers and send your enquiry — free, and with no obligation.</p>
+    </div>
+    <div class="quiz" id="quiz">
+      <div class="q-prog" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+      <div class="q-step on">
+        <p class="q-q">When are you due?</p>
+        <div class="q-opts">
+          {%- for d in due_options %}
+          <button type="button" data-q="due" data-val="{{ d }}" data-next="1">{{ d }}</button>
+          {%- endfor %}
+          <button type="button" data-q="due" data-val="Already delivered" data-next="1">Already delivered</button>
+        </div>
+      </div>
+
+      <div class="q-step">
+        <p class="q-q">Which part of Singapore suits you?</p>
+        <div class="q-opts">
+          {%- for r in REGIONS %}
+          <button type="button" data-q="region_pref" data-val="{{ r }}" data-next="2">{{ r }}</button>
+          {%- endfor %}
+          <button type="button" data-q="region_pref" data-val="No preference" data-next="2">No preference</button>
+        </div>
+        <p class="q-back"><button class="linkbtn" type="button" data-back="0">← Back</button></p>
+      </div>
+
+      <div class="q-step">
+        <p class="q-q">What kind of help are you looking for?</p>
+        <div class="q-opts">
+          <button type="button" data-q="help" data-val="Stay at a confinement centre" data-next="3">Stay at a centre</button>
+          <button type="button" data-q="help" data-val="Confinement nanny at home" data-next="3">Nanny at home</button>
+          <button type="button" data-q="help" data-val="Postnatal massage &amp; recovery" data-next="3">Postnatal recovery</button>
+          <button type="button" data-q="help" data-val="Confinement meal delivery" data-next="3">Meals delivered</button>
+          <button type="button" data-q="help" data-val="Still deciding" data-next="3">Still deciding</button>
+        </div>
+        <p class="q-back"><button class="linkbtn" type="button" data-back="1">← Back</button></p>
+      </div>
+
+      <div class="q-step">
+        <div class="q-recap" id="q-recap"></div>
+        {{ m.leadform(
+            subject='Get Matched request — ConfinementFinderSG',
+            hidden={'lead_type':'get-matched','due':'','region_pref':'','help':''},
+            heading='Where should we send your shortlist?',
+            hint='We usually reply within one working day with 3–5 suitable options.',
+            button='Send my shortlist request', compact=True, id='quizform') }}
+        <p class="q-back"><button class="linkbtn" type="button" data-back="2">← Back</button></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2>Browse by region</h2>
+      <p>Most mums choose a centre close to home or to their parents. Start with your area.</p></div>
+    <div class="grid g5">
+      {%- for r in REGIONS %}
+      <a class="tile" href="/confinement-centres/{{ r|slug }}/">
+        <span class="n">{{ r }}</span>
+        <span class="c">{{ region_counts[r] }} listing{{ '' if region_counts[r]==1 else 's' }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head"><h2>Browse by what you need</h2>
+      <p>Confinement care in Singapore comes in four main forms. They cost very differently — <a href="/costs/">see the price guide</a>.</p></div>
+    <div class="grid g4">
+      {%- for c in need_cards %}
+      <a class="tile" href="{{ c.url }}">
+        <span class="n">{{ c.name }}</span>
+        <span class="c">{{ c.count }} listing{{ '' if c.count==1 else 's' }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2>Featured providers</h2>
+      <p>Well-established providers with a strong track record on Google. Listed for visibility, not ranked as “best” — the right one depends on your budget and region.</p></div>
+    <div class="grid g3">
+      {%- for l in featured %}{{ m.card(l) }}{% endfor %}
+    </div>
+    <p style="text-align:center;margin-top:28px"><a class="btn btn-ghost" href="/confinement-centres/">See all {{ total }} listings</a></p>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head"><h2>Why use ConfinementFinderSG instead of just Googling?</h2></div>
+    <div class="grid g4">
+      <div class="tile" style="text-align:left">
+        <span class="n">Compare side by side</span>
+        <p class="c" style="margin-top:8px">Put three centres next to each other — region, hours, rating, what they offer — instead of juggling 12 browser tabs.</p>
+      </div>
+      <div class="tile" style="text-align:left">
+        <span class="n">Honest price ranges</span>
+        <p class="c" style="margin-top:8px">Most centres hide prices behind a form. Our <a href="/costs/">cost guide</a> tells you the realistic ranges before you enquire.</p>
+      </div>
+      <div class="tile" style="text-align:left">
+        <span class="n">Every listing described</span>
+        <p class="c" style="margin-top:8px">Plain-English descriptions of who each provider suits — not just a pin on a map and a star rating.</p>
+      </div>
+      <div class="tile" style="text-align:left">
+        <span class="n">One enquiry, several replies</span>
+        <p class="c" style="margin-top:8px">Fill in one short form and we pass it to your shortlist. No repeating your due date five times.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2>Start with these guides</h2>
+      <p>Written for third-trimester mums who want a straight answer.</p></div>
+    <div class="grid g3">
+      {%- for p in home_posts %}
+      <article class="card">
+        <div class="card-body">
+          <div class="badges"><span class="badge badge-cat">{{ p.category }}</span></div>
+          <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
+          <p class="teaser">{{ p.excerpt }}</p>
+          <div class="card-actions"><a class="btn btn-sm btn-ghost" href="{{ p.url }}">Read guide</a></div>
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+    <p class="trust">{{ total }} verified listings · Updated {{ BUILD_MONTH }} · Made in Singapore for Singapore mums</p>
+  </div>
+</section>
+
+{% endblock %}

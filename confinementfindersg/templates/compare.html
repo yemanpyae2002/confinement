@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs([{'name':'Compare'}]) }}
+
+<section class="wrap" style="padding-top:18px">
+  <h1>{{ h1 }}</h1>
+  <div class="prose">{{ intro|safe }}</div>
+</section>
+
+<section class="wrap">
+  <div class="tablewrap">
+    <table class="cmp-table" id="cmp-table">
+      <caption class="sr-only">Side-by-side comparison of confinement centres in Singapore</caption>
+      <thead>
+        <tr><th scope="col">&nbsp;</th>
+        {%- for l in cols %}<th scope="col"><a href="{{ l.url }}">{{ l.display_name }}</a></th>{% endfor %}</tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Region</th>{% for l in cols %}<td>{{ l.region }}</td>{% endfor %}</tr>
+        <tr><th scope="row">Type</th>{% for l in cols %}<td>{{ l.cat_label }}</td>{% endfor %}</tr>
+        <tr><th scope="row">Google rating</th>{% for l in cols %}<td>★ {{ "%.1f"|format(l.rating) }}<br><span class="c">{{ "{:,}".format(l.reviews) }} reviews</span></td>{% endfor %}</tr>
+        <tr><th scope="row">Features</th>{% for l in cols %}<td>{% if l.tags %}{{ l.tags|map('tagname')|join(', ') }}{% else %}—{% endif %}</td>{% endfor %}</tr>
+        <tr><th scope="row">Opening hours</th>{% for l in cols %}<td>{{ l.hours_summary }}</td>{% endfor %}</tr>
+        <tr><th scope="row">Contact</th>{% for l in cols %}<td>
+          {%- if l.phone %}<a href="tel:{{ l.phone|replace(' ','') }}">{{ l.phone }}</a><br>{% endif %}
+          {%- if l.website %}<a href="{{ l.website }}" rel="nofollow noopener" target="_blank">Website ↗</a>{% endif %}</td>{% endfor %}</tr>
+        <tr><th scope="row">&nbsp;</th>{% for l in cols %}<td><a class="btn btn-sm" href="{{ l.url }}#enquire">Enquire</a></td>{% endfor %}</tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pricenote">Ratings shown are Google ratings, not reviews collected by ConfinementFinderSG. Prices are not published by most providers — send one enquiry below to get current quotes.</p>
+</section>
+
+<section class="sec">
+  <div class="wrap narrow">
+    <div class="form-card">
+      {{ m.leadform(
+          subject='Compare enquiry — ConfinementFinderSG',
+          hidden={'lead_type':'compare','compared':''},
+          heading='Send one enquiry to all of them',
+          hint='Rather than filling in three separate forms, tell us once. We’ll forward it to the centres you’re comparing and they’ll reply to you directly.',
+          button='Send to all selected', id='cmpform') }}
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap narrow">
+    {{ m.faq(faqs) }}
+    <p style="margin-top:26px"><a class="btn btn-ghost" href="/confinement-centres/">Browse all {{ total }} listings</a></p>
+  </div>
+</section>
+{% endblock %}

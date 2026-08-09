@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs([{'name':cat_name}]) }}
+
+<section class="wrap" style="padding-top:18px">
+  <h1>{{ h1 }}</h1>
+  <div class="prose">{{ intro|safe }}</div>
+</section>
+
+<section class="wrap" style="padding-bottom:50px">
+  <div class="filters">
+    <div class="frow">
+      <span class="flab">Region</span>
+      {%- for r in REGIONS %}
+      <button class="pill" type="button" data-filter="region" data-value="{{ r }}" aria-pressed="false">{{ r }}</button>
+      {%- endfor %}
+    </div>
+    <div class="fbar-foot">
+      <span class="count"><b id="count-n">{{ listings|length }}</b> of {{ listings|length }} listings shown
+        <button class="linkbtn" id="clear-filters" type="button" hidden>Clear filters</button></span>
+      <label>Sort:
+        <select class="sortsel" id="sort">
+          <option value="reviews">Most reviewed</option>
+          <option value="rating">Highest rated</option>
+          <option value="name">Name (A–Z)</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="grid g3" id="listing-grid">
+    {%- for l in listings %}{{ m.card(l) }}{% endfor %}
+  </div>
+  <div class="no-results" id="no-results">
+    <h3>No listings in that region</h3>
+    <p>Many providers here cover the whole island — clear the filter, or ask us directly.</p>
+    <a class="btn" href="/#get-matched">Get matched free</a>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap narrow">
+    {{ m.faq(faqs) }}
+    {%- if related_posts %}
+    <h2>Read next</h2>
+    <ul>
+      {%- for p in related_posts %}
+      <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap narrow">
+    <div class="form-card">
+      {{ m.leadform(
+          subject='Enquiry: ' ~ cat_name ~ ' — ConfinementFinderSG',
+          hidden={'lead_type':'category','category':cat_name},
+          heading='Get quotes from ' ~ cat_name|lower,
+          hint='Tell us your dates and budget — we’ll pass your enquiry to providers that have availability.',
+          button='Send my enquiry', id='catform') }}
+    </div>
+  </div>
+</section>
+{% endblock %}

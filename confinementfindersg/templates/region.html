@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs([{'name':'Confinement centres','url':'/confinement-centres/'},{'name':region}]) }}
+
+<section class="wrap" style="padding-top:18px">
+  <h1>{{ h1 }}</h1>
+  <div class="prose">{{ intro|safe }}</div>
+</section>
+
+<section class="wrap">
+  {%- if centres %}
+  <h2>Confinement centres in {{ region }}</h2>
+  <div class="grid g3">{% for l in centres %}{{ m.card(l) }}{% endfor %}</div>
+  {%- endif %}
+
+  {%- if thin %}
+  <div class="form-card" style="margin:38px 0">
+    {{ m.leadform(
+        subject='Region enquiry (' ~ region ~ ') — ConfinementFinderSG',
+        hidden={'lead_type':'region','region_pref':region},
+        heading="Can't find what you're looking for near you?",
+        hint='The ' ~ region ~ ' has fewer resident centres than Central — but many nanny agencies and meal services cover the whole island, and some centres are only a short drive away. Tell us what you need and we’ll shortlist options that will actually travel to you.',
+        button='Find options near me', id='regionform') }}
+  </div>
+  {%- endif %}
+
+  {%- if services %}
+  <h2>Nannies, postnatal care and meals in {{ region }}</h2>
+  <p class="prose">Many of these providers travel to your home or deliver island-wide, so don’t rule out one based on its address alone.</p>
+  <div class="grid g3">{% for l in services %}{{ m.card(l) }}{% endfor %}</div>
+  {%- endif %}
+
+  {%- if islandwide %}
+  <h2>Island-wide services that cover {{ region }}</h2>
+  <p class="prose">These providers deliver or make home visits across Singapore, including the {{ region }}.</p>
+  <div class="grid g3">{% for l in islandwide %}{{ m.card(l) }}{% endfor %}</div>
+  {%- endif %}
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <h2>Also look nearby</h2>
+    <div class="grid g4">
+      {%- for r in siblings %}
+      <a class="tile" href="/confinement-centres/{{ r|slug }}/">
+        <span class="n">{{ r }}</span><span class="c">{{ region_counts[r] }} listings</span>
+      </a>
+      {%- endfor %}
+    </div>
+    <p style="margin-top:26px">Compare prices before you enquire — see the <a href="/costs/">Singapore confinement cost guide</a>, or <a href="/compare/">compare centres side by side</a>.</p>
+  </div>
+</section>
+
+{%- if not thin %}
+<section class="sec sec-alt">
+  <div class="wrap narrow">
+    <div class="form-card">
+      {{ m.leadform(
+          subject='Region enquiry (' ~ region ~ ') — ConfinementFinderSG',
+          hidden={'lead_type':'region','region_pref':region},
+          heading='Enquire with ' ~ region ~ ' providers in one go',
+          hint='One short form. We pass it to the providers that fit your dates and budget.',
+          button='Send my enquiry', id='regionform') }}
+    </div>
+  </div>
+</section>
+{%- endif %}
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs(crumb_items) }}
+
+<div class="wrap listing-head">
+  <h1>{{ l.name }}</h1>
+  <div class="badges">
+    <span class="badge badge-region">{{ l.region }}</span>
+    <span class="badge badge-cat">{{ l.cat_label }}</span>
+    {%- for t in l.tags %}<span class="badge badge-tag">{{ t|tagname }}</span>{% endfor %}
+  </div>
+  <div class="quickbar">
+    {{ m.stars(l.rating, l.reviews) }}
+    {%- if l.phone %}<a href="tel:{{ l.phone|replace(' ','') }}">{{ l.phone }}</a>{% endif %}
+    {%- if l.website %}<a href="{{ l.website }}" rel="nofollow noopener" target="_blank">Visit website ↗</a>{% endif %}
+    <span>{{ l.address }}</span>
+  </div>
+</div>
+
+<div class="wrap layout">
+  <div>
+    <div class="hero-img card-media" data-c="{{ l.cat_label }}">{{ m.photo(l) }}</div>
+
+    <h2>About {{ l.display_name }}</h2>
+    <div class="prose">{{ l.about_html|safe }}</div>
+
+    {%- if l.highlights %}
+    <h2>Services &amp; highlights</h2>
+    <ul class="ticks">{% for h in l.highlights %}<li>{{ h }}</li>{% endfor %}</ul>
+    {%- endif %}
+
+    {%- if l.hours %}
+    <h2>Opening hours</h2>
+    <div class="tablewrap">
+      <table class="hours">
+        <caption class="sr-only">Opening hours for {{ l.name }}</caption>
+        <tbody>
+        {%- for d, h in l.hours %}
+        <tr><th scope="row">{{ d }}</th><td>{{ h }}</td></tr>
+        {%- endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="pricenote">Hours are from the provider’s Google listing and can change — confirm before you visit.</p>
+    {%- endif %}
+
+    <h2>Where it is</h2>
+    <p>{{ l.address }}</p>
+    <div class="mapwrap" data-map="{{ l.map_src }}" data-title="Map showing {{ l.name }}"></div>
+
+    <h2 id="enquire">Check availability &amp; pricing</h2>
+    <div class="form-card">
+      {{ m.leadform(
+          subject='Enquiry: ' ~ l.name ~ ' — ConfinementFinderSG',
+          hidden={'lead_type':'listing','listing':l.name,'listing_slug':l.slug,'region':l.region,'category':l.cat_label},
+          hint='Send one enquiry and ' ~ l.display_name ~ ' will get back to you directly with availability and current package prices. Free, no obligation.',
+          button='Send enquiry to ' ~ l.display_name|truncate(28, True, '…'), id='listingform') }}
+    </div>
+
+    {%- if related %}
+    <h2>Similar options nearby</h2>
+    <div class="grid g3">{% for r in related %}{{ m.card(r) }}{% endfor %}</div>
+    {%- endif %}
+
+    <p class="owner-links">
+      Are you the owner? <a href="/list-your-business/?listing={{ l.slug }}">Claim this listing</a> ·
+      Something wrong? <a href="/contact/?about={{ l.slug }}">Report an issue</a>
+    </p>
+  </div>
+
+  <aside>
+    <div class="panel sticky">
+      <h3 style="margin-top:0">At a glance</h3>
+      <table class="hours">
+        <tbody>
+          <tr><th scope="row">Type</th><td>{{ l.cat_label }}</td></tr>
+          <tr><th scope="row">Region</th><td><a href="/confinement-centres/{{ l.region|slug }}/">{{ l.region }}</a></td></tr>
+          <tr><th scope="row">Google rating</th><td>★ {{ "%.1f"|format(l.rating) }} ({{ "{:,}".format(l.reviews) }})</td></tr>
+          {%- if l.phone %}<tr><th scope="row">Phone</th><td><a href="tel:{{ l.phone|replace(' ','') }}">{{ l.phone }}</a></td></tr>{% endif %}
+          {%- if l.website %}<tr><th scope="row">Website</th><td><a href="{{ l.website }}" rel="nofollow noopener" target="_blank">Visit ↗</a></td></tr>{% endif %}
+        </tbody>
+      </table>
+      <p style="margin:16px 0 0"><a class="btn btn-block" href="#enquire">Check availability</a></p>
+      <p class="privacy-note">Prices are not published by most providers — enquire for a current quote. See <a href="/costs/">typical ranges</a>.</p>
+    </div>
+  </aside>
+</div>
+
+<div class="mob-cta">
+  <a class="btn btn-block" href="#enquire">Check availability &amp; pricing</a>
+</div>
+{% endblock %}

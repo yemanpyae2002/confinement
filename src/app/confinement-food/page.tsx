@@ -1,0 +1,16 @@
+import type { Metadata } from "next";
+import CategoryPage from "@/components/site/CategoryPage";
+import { buildMetadata } from "@/lib/seo";
+import { listingsByCat, YEAR } from "@/lib/listings";
+
+const n = listingsByCat("Confinement Food").length;
+
+export const metadata: Metadata = buildMetadata({
+  title: `Confinement Food Delivery Singapore — Compare ${YEAR}`,
+  description: `Compare ${n} confinement food delivery providers in Singapore. Typical cost S$800–S$1,500 for 28 days of daily meals.`,
+  path: "/confinement-food/",
+});
+
+export default function Page() {
+  return <CategoryPage cat="Confinement Food" nav="food" />;
+}

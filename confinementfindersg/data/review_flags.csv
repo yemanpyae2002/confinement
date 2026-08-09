@@ -1,0 +1,28 @@
+name,type,reason
+"The Prenatal Consultants - Prof George SH Yeo, Dr Edwin Thia, Dr Yip Swee Lin & Dr Angeline Chua",Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+Babies Bliss Fertility & Pregnancy Wellness,Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+The O&G Care Clinic,Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+"Thomson Women's Clinic & Specialists (Paragon) - Female Gynae, High Risk Pregnancy, Family Planning",Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+"Astra Women's Specialists by SMG (Paragon, Orchard - Dr. Sivahami Sivananthan) | Gynecologist, Gynae Singapore, Obstetrician",Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+"Thomson Women’s Clinic/Specialists (Woodleigh) – Gynae, High-Risk Pregnancy, IUI",Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+"Thomson Women's Clinic Serangoon – Female Gynae, Pregnancy, Pap Smear, Women Health Screening",Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+Sincere Medical Specialist Center - Dr Andy Tan Clinic for Women,Pregnancy care center,name reads as a medical/OBGYN practice — dropped; restore manually if it runs confinement services
+Re'Joy Suites,Wellness hotel,kept via scrape-query signal only — verify it genuinely serves confinement mums
+momley LOFT,Wellness center,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Compass One,Shopping mall,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Tian Wei Signature,Caterer,kept via scrape-query signal only — verify it genuinely serves confinement mums
+NouRiche,Caterer,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Mom's Cooking Pte Ltd,Delivery Chinese restaurant,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Tingkat Delivery | Best Healthy Tingkat Meals in Singapore,Caterer,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Chong Hoe Healthcare TCM @Bukit Timah,Chinese Physician Clinic,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Madam Partum by Chien Chi Tow TCM Clinic,Chinese Physician Clinic,kept via scrape-query signal only — verify it genuinely serves confinement mums
+ReLacto,Caterer,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Kim Paradise – Tingkat Food & Healthy Meal Delivery In Singapore,Caterer,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Warda Doula Care,Doula,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Babies Bellies,Massage therapist,kept via scrape-query signal only — verify it genuinely serves confinement mums
+"PK Women's Specialist & Gynae Clinic - Gynaecology | Women's Health | Pregnancy Package, Postnatal Care - Dr. Tan Poh Kok",Specialized clinic,"medical practice that mentions postnatal/confinement — kept, but verify it belongs in a directory of confinement services"
+Ample Life - Wellness & Beauty,Wellness center,kept via scrape-query signal only — verify it genuinely serves confinement mums
+M.Wellness Pte Ltd,Wellness program,kept via scrape-query signal only — verify it genuinely serves confinement mums
+Orchard Clinic (Orchard branch),Wellness center,kept via scrape-query signal only — verify it genuinely serves confinement mums
+NewLife Confinement Services Pte Ltd (Confinement Center/ Nanny Service),Pregnancy care center,Confirm: centre (leave uncategorised) or Nanny Agency? Name says both.
+Shan Confinement,Shopping mall,Scraped as 'Shopping mall' — verify it is a real confinement centre.

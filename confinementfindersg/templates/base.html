@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ SITE }}{{ path }}">
+<meta property="og:site_name" content="ConfinementFinderSG">
+<meta property="og:title" content="{{ og_title|default(title) }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:type" content="{{ og_type|default('website') }}">
+<meta property="og:url" content="{{ SITE }}{{ path }}">
+<meta property="og:image" content="{{ SITE }}{{ og_image|default('/img/og-default.png') }}">
+<meta property="og:locale" content="en_SG">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/style.css">
+{%- for block in schema %}
+<script type="application/ld+json">{{ block|safe }}</script>
+{%- endfor %}
+<script src="/main.js" defer></script>
+</head>
+<body{% if body_class %} class="{{ body_class }}"{% endif %}>
+<a class="sr-only" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="logo" href="/">ConfinementFinder<span class="sg">SG</span></a>
+    <button class="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">☰</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="/confinement-centres/"{% if nav=='centres' %} aria-current="page"{% endif %}>Find a Centre</a>
+      <a href="/nanny-agencies/"{% if nav=='nanny' %} aria-current="page"{% endif %}>Nanny Agencies</a>
+      <a href="/postnatal-services/"{% if nav=='postnatal' %} aria-current="page"{% endif %}>Postnatal</a>
+      <a href="/confinement-food/"{% if nav=='food' %} aria-current="page"{% endif %}>Food</a>
+      <a href="/costs/"{% if nav=='costs' %} aria-current="page"{% endif %}>Costs</a>
+      <a href="/blog/"{% if nav=='blog' %} aria-current="page"{% endif %}>Blog</a>
+      <a class="nav-cta" href="/list-your-business/">For Businesses</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+{% block content %}{% endblock %}
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="flogo">ConfinementFinder<span class="sg">SG</span></span>
+        <p class="ftag">Rest well. Start well. Singapore’s most comprehensive guide to confinement centres, nannies and postnatal care.</p>
+        <a class="btn btn-sm btn-rose" href="/#get-matched">Get matched free</a>
+      </div>
+      <div>
+        <h4>By region</h4>
+        <ul>
+          {%- for r in REGIONS %}
+          <li><a href="/confinement-centres/{{ r|slug }}/">{{ r }}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      <div>
+        <h4>By need</h4>
+        <ul>
+          <li><a href="/confinement-centres/">Confinement centres</a></li>
+          <li><a href="/nanny-agencies/">Confinement nannies</a></li>
+          <li><a href="/postnatal-services/">Postnatal services</a></li>
+          <li><a href="/confinement-food/">Confinement food</a></li>
+          <li><a href="/compare/">Compare centres</a></li>
+          <li><a href="/costs/">Prices &amp; costs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Guides &amp; info</h4>
+        <ul>
+          {%- for p in footer_posts %}
+          <li><a href="{{ p.url }}">{{ p.short }}</a></li>
+          {%- endfor %}
+          <li><a href="/about/">About us</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbar">
+      <span>© {{ YEAR }} ConfinementFinderSG. Made in Singapore.</span>
+      <span><a href="/privacy/">Privacy</a> · <a href="/list-your-business/">List your business</a></span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

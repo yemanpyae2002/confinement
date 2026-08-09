@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block content %}
+{{ m.crumbs([{'name':'Blog'}]) }}
+<section class="wrap" style="padding-top:18px">
+  <h1>{{ h1 }}</h1>
+  <div class="prose">{{ intro|safe }}</div>
+</section>
+
+{%- for cat, items in grouped %}
+<section class="sec{% if loop.index is even %} sec-alt{% endif %}">
+  <div class="wrap">
+    <h2 style="margin-top:0">{{ cat }}</h2>
+    <div class="grid g3">
+      {%- for p in items %}
+      <article class="card"><div class="card-body">
+        <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
+        <p class="teaser">{{ p.excerpt }}</p>
+        <div class="card-actions"><a class="btn btn-sm btn-ghost" href="{{ p.url }}">Read guide</a></div>
+      </div></article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endfor %}
+
+<section class="sec">
+  <div class="wrap narrow">
+    <div class="cta-box">
+      <h3>Ready to shortlist?</h3>
+      <p>Answer three quick questions and we’ll match you with confinement centres, nannies or meal providers that fit your dates, region and budget.</p>
+      <a class="btn" href="/#get-matched">Get matched free</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
