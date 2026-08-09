@@ -134,9 +134,11 @@ export default async function RegionPage({ params }: { params: Promise<{ region:
             <h2>Also look nearby</h2>
             <div className="grid g4">
               {siblings.map((r) => (
-                <Link className="tile" key={r} href={`/confinement-centres/${slugifyRegion(r)}/`}>
+                <Link className="tile tile-count" key={r} href={`/confinement-centres/${slugifyRegion(r)}/`}>
                   <span className="n">{r}</span>
-                  <span className="c">{counts[r]} listings</span>
+                  <span className="c">
+                    {counts[r]} listing{counts[r] === 1 ? "" : "s"}
+                  </span>
                 </Link>
               ))}
             </div>

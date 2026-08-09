@@ -14,7 +14,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "ConfinementFinderSG — Find Your Perfect Confinement Centre",
+    default: "Confinement Centres Singapore — Compare Verified Listings",
     template: "%s",
   },
   description:
