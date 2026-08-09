@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/lib/listings";
+import { SITE_IS_PRIVATE } from "@/lib/site-config";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,6 +20,14 @@ export const metadata: Metadata = {
   description:
     "Compare verified confinement centres, nanny agencies, postnatal services and meal providers in Singapore.",
   icons: { icon: "/favicon.svg" },
+  ...(SITE_IS_PRIVATE && {
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: { index: false, follow: false, noimageindex: true },
+    },
+  }),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
