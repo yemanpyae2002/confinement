@@ -27,6 +27,8 @@ export interface Listing {
   reviews: number;
   highlights: string[];
   has_photo: boolean;
+  /** Business's own logo, mirrored locally. Absent when none was available. */
+  logo?: string;
   area: string;
   map_src: string;
   teaser: string;

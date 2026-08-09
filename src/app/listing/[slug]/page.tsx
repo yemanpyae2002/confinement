@@ -75,7 +75,7 @@ export default async function ListingPage({ params }: { params: Promise<{ slug: 
         <div className="wrap layout">
           <div>
             <div className="hero-img card-media" data-c={l.cat_label}>
-              <Photo l={l} />
+              <Photo l={l} priority />
             </div>
 
             <h2>About {l.display_name}</h2>

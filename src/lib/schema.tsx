@@ -71,6 +71,8 @@ export function localBusinessLd(l: Listing): Json {
     areaServed: { "@type": "AdministrativeArea", name: `${l.region} Region, Singapore` },
   };
   if (l.has_photo) o.image = `${SITE}/img/${l.slug}.jpg`;
+  // A logo isn't a venue photo, so it goes in `logo`, not `image`.
+  if (l.logo) o.logo = `${SITE}${l.logo}`;
   if (l.phone) o.telephone = l.phone;
   if (l.website) o.sameAs = [l.website];
   const spec = l.hours

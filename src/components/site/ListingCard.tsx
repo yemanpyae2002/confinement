@@ -11,7 +11,10 @@ export function Stars({ rating, reviews }: { rating: number; reviews: number }) 
   );
 }
 
-export function Photo({ l }: { l: Listing }) {
+/** `priority` marks an above-the-fold image (the listing page hero) so it is
+ *  eagerly fetched instead of lazily — lazy-loading the LCP element delays it. */
+export function Photo({ l, priority = false }: { l: Listing; priority?: boolean }) {
+  const loading = priority ? "eager" : "lazy";
   if (l.has_photo) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -20,8 +23,26 @@ export function Photo({ l }: { l: Listing }) {
         alt={`${l.name} — ${l.cat_label.toLowerCase()} in ${l.region}, Singapore`}
         width={640}
         height={400}
-        loading="lazy"
+        loading={loading}
+        fetchPriority={priority ? "high" : undefined}
       />
+    );
+  }
+  // No venue photo, but we mirrored the business's own logo — show that on a
+  // soft brand background rather than the initials placeholder.
+  if (l.logo) {
+    return (
+      <div className="logo-media">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={l.logo}
+          alt={`${l.display_name} logo — ${l.cat_label.toLowerCase()} in ${l.region}, Singapore`}
+          width={400}
+          height={400}
+          loading={loading}
+          fetchPriority={priority ? "high" : undefined}
+        />
+      </div>
     );
   }
   return (
