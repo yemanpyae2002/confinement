@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { SITE } from "@/lib/listings";
 import { SITE_IS_PRIVATE } from "@/lib/site-config";
@@ -53,6 +54,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-SG" className={poppins.variable}>
       <body style={{ fontFamily: "var(--font-poppins), Poppins, sans-serif" }}>{children}</body>
+      {/* GA4. Injects gtag.js and tracks App Router client-side navigations,
+          which a raw <script> snippet would miss. */}
+      <GoogleAnalytics gaId="G-C22LYQ1QX1" />
     </html>
   );
 }

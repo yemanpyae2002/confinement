@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "15.5.7",
     "@radix-ui/react-alert-dialog": "^1.1.5",
     "@radix-ui/react-dialog": "^1.1.5",
     "@radix-ui/react-slot": "^1.1.1",
@@ -21,8 +22,8 @@
     "react-dom": "^19.0.0",
     "react-markdown": "^9.0.3",
     "remark": "^15.0.1",
-    "remark-html": "^16.0.1",
     "remark-gfm": "^4.0.0",
+    "remark-html": "^16.0.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },
