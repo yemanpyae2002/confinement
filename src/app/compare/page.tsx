@@ -13,7 +13,7 @@ import { COMPARE_INTRO, COMPARE_FAQS } from "@/lib/content";
 export const metadata: Metadata = buildMetadata({
   title: "Compare Confinement Centres in Singapore Side by Side",
   description:
-    "Compare Singapore confinement centres on region, rating, hours and features. Shortlist three, send one enquiry, get quotes back directly.",
+    "Compare Singapore confinement centres side by side on region, rating, hours and features. Shortlist three, send one enquiry, get quotes back directly.",
   path: "/compare/",
 });
 

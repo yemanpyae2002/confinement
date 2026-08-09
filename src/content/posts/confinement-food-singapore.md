@@ -3,7 +3,7 @@ title: "Confinement Food in Singapore: What to Eat, What to Avoid, and Where to 
 slug: confinement-food-singapore
 category: Confinement food
 excerpt: "Sesame oil chicken, fish and papaya soup, red date tea — what confinement food is, what's actually worth avoiding, and what delivery costs."
-description: "Confinement food in Singapore: what to eat, what to avoid, Chinese, Malay and Indian dishes, and what 28 days of meal delivery costs."
+description: "Confinement food in Singapore: what to eat, what to avoid, Chinese, Malay and Indian dishes, and what 28 days of meal delivery really costs."
 title_tag: "Confinement Food Singapore — What to Eat and Where to Order"
 cta_heading: "Want the food handled?"
 cta_text: "Compare confinement meal providers delivering across Singapore, from 7-day trials to full 28-day plans."

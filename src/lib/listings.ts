@@ -114,9 +114,50 @@ export function listingTitle(l: Listing): string {
   return t;
 }
 
+/** Reads naturally after "X is a …": "Confinement Food" is a category, not a
+ *  noun you can apply to a business, so it needs rephrasing. */
+function catPhrase(cat: Listing["cat_label"]): string {
+  switch (cat) {
+    case "Confinement Food":
+      return "confinement meal provider";
+    case "Postnatal Services":
+      return "postnatal care provider";
+    default:
+      return cat.toLowerCase();
+  }
+}
+
+/**
+ * Meta descriptions must land in 140–155 chars (seo-specs.md). Rather than
+ * hard-truncating — which cut mid-word and still overshot at 158 — this builds
+ * from a required core, then adds optional clauses only while they fit, and
+ * pads short ones with a region cue so nothing lands under 140.
+ */
 export function listingDescription(l: Listing): string {
-  const desc = `${l.display_name} is a ${l.cat_label.toLowerCase()} in ${
-    l.area || l.region
-  }, Singapore. Google rating ${l.rating.toFixed(1)} from ${l.reviews.toLocaleString()} reviews. Check availability and pricing free.`;
-  return desc.slice(0, 158);
+  const MAX = 155;
+  const where = l.area && l.area !== l.region ? `${l.area}, ${l.region}` : l.region;
+  let d = `${l.display_name} is a ${catPhrase(l.cat_label)} in ${where}, Singapore.`;
+
+  const add = (clause: string) => {
+    if (`${d} ${clause}`.length <= MAX) d = `${d} ${clause}`;
+  };
+
+  add(`Google rating ${l.rating.toFixed(1)} from ${l.reviews.toLocaleString()} reviews.`);
+
+  // Pick the longest tail that still fits, so short entries reach the 140 floor
+  // instead of stopping at the first candidate that happens to be too long.
+  const tails = [
+    `Compare packages and check availability across ${l.region} Singapore — free enquiry.`,
+    "Compare packages and check availability — free enquiry, no obligation.",
+    "Check availability and pricing — free enquiry, no obligation.",
+    "Compare packages and check availability — free enquiry.",
+    "Check availability and pricing — free, no obligation.",
+    "Check availability and pricing — free enquiry.",
+    "Check availability and pricing, free.",
+    "Check availability free.",
+    "Enquire free.",
+  ];
+  const best = tails.find((t) => `${d} ${t}`.length <= MAX);
+  if (best) d = `${d} ${best}`;
+  return d;
 }

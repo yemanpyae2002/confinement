@@ -9,7 +9,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "List Your Confinement Business — ConfinementFinderSG",
   description:
-    "Get discovered by expecting parents in Singapore. Claim your free listing or ask about featured placement and enquiry forwarding.",
+    "Get discovered by expecting parents across Singapore. Claim your free verified listing, or ask about featured placement and enquiry forwarding.",
   path: "/list-your-business/",
 });
 

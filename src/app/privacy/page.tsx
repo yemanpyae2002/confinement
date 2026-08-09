@@ -9,7 +9,7 @@ import { BUILD_MONTH } from "@/lib/listings";
 export const metadata: Metadata = buildMetadata({
   title: "Privacy Policy — ConfinementFinderSG",
   description:
-    "What ConfinementFinderSG collects, how enquiries are shared with providers, and how to request deletion. PDPA-aware, in plain English.",
+    "What ConfinementFinderSG collects, how your enquiries are shared with providers, and how to request deletion. PDPA-aware, written in plain English.",
   path: "/privacy/",
 });
 

@@ -3,7 +3,7 @@ title: "Confinement Centre vs Confinement Nanny vs Doing It Yourself: An Honest 
 slug: confinement-centre-vs-nanny-vs-diy
 category: Choosing care
 excerpt: "A centre costs 3–4× a nanny. A nanny needs a spare room. DIY needs real help. Here's who each option actually suits, without the sales pitch."
-description: "Confinement centre, nanny or DIY? An honest Singapore comparison of cost, privacy, control and who each option genuinely suits."
+description: "Confinement centre, nanny or DIY? An honest Singapore comparison of cost, privacy, control and who each option genuinely suits, with real price ranges."
 title_tag: "Confinement Centre vs Nanny vs DIY — An Honest Comparison"
 cta_heading: "Still torn between the three?"
 cta_text: "Answer three quick questions about your due date, region and budget. We'll shortlist the providers that actually fit and send your enquiry for you."

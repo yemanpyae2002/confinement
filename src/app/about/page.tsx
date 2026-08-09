@@ -11,7 +11,7 @@ const total = allListings().length;
 export const metadata: Metadata = buildMetadata({
   title: "About ConfinementFinderSG — How We Build This Directory",
   description:
-    "Who we are, how we compile and verify confinement listings, and how the site is funded. Independent, Singapore-made, free for parents.",
+    "Who we are, how we compile and verify every confinement listing, and how the site is funded. Independent, Singapore-made, and always free for parents.",
   path: "/about/",
 });
 

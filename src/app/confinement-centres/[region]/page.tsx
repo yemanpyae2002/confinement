@@ -9,7 +9,7 @@ import Breadcrumbs from "@/components/site/Breadcrumbs";
 import { SchemaScripts, breadcrumbLd, itemListLd } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 import { REGIONS, byReviews, listingsByRegion, regionCounts, slugifyRegion } from "@/lib/listings";
-import { REGION_INTROS } from "@/lib/content";
+import { REGION_AREAS, REGION_INTROS } from "@/lib/content";
 
 export function generateStaticParams() {
   return REGIONS.map((r) => ({ region: slugifyRegion(r) }));
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ region: s
   if (title.length > 60) title = `Confinement Centres in ${region} Singapore — Compare`;
   return buildMetadata({
     title,
-    description: `${count} confinement centres, nannies and postnatal services in ${region} Singapore. Compare ratings and features, then enquire free.`,
+    description: `${count} confinement centres, nannies and postnatal services in ${region} Singapore — ${REGION_AREAS[region]}. Compare ratings and prices, then enquire free.`,
     path: `/confinement-centres/${regionSlug}/`,
   });
 }

@@ -8,9 +8,9 @@ import { buildMetadata } from "@/lib/seo";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Confinement Guides for Singapore Parents | ConfinementFinderSG",
+  title: "Confinement Guides for Singapore Parents & Mums-to-Be",
   description:
-    "Straight answers on confinement centres, nannies, costs, food and traditions — written for Singapore parents planning the fourth trimester.",
+    "Straight answers on confinement centres, nannies, costs, food and traditions — written for Singapore parents planning the fourth trimester. Free to read.",
   path: "/blog/",
 });
 

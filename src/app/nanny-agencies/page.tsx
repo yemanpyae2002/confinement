@@ -7,7 +7,7 @@ const n = listingsByCat("Nanny Agency").length;
 
 export const metadata: Metadata = buildMetadata({
   title: `Confinement Nanny Agencies Singapore — Compare ${YEAR}`,
-  description: `Compare ${n} confinement nanny agencies in Singapore. Typical cost S$3,000–S$4,500 for 28 days. Check availability and get quotes free.`,
+  description: `Compare ${n} confinement nanny agencies in Singapore, with Google ratings and areas served. Typical cost S$3,000–S$4,500 for 28 days. Get quotes free.`,
   path: "/nanny-agencies/",
 });
 

@@ -8,7 +8,8 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Contact ConfinementFinderSG",
-  description: "Get in touch about a listing, a correction, or help finding confinement care in Singapore.",
+  description:
+    "Get in touch about a listing, a correction, or help finding confinement care in Singapore. We reply to most enquiries within one working day.",
   path: "/contact/",
 });
 

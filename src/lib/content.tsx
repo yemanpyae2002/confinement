@@ -222,6 +222,19 @@ export const CATEGORY_COPY: Record<Exclude<CatLabel, "Confinement Centre">, Cate
   },
 };
 
+/**
+ * Real neighbourhoods per region, for meta descriptions (seo-specs.md asks for
+ * 2–3 by name). Curated rather than derived from listing `area` values, which
+ * are often street names ("Playfair", "Quality") and read as nonsense in a SERP.
+ */
+export const REGION_AREAS: Record<string, string> = {
+  Central: "Orchard, Novena, Bukit Timah",
+  East: "Katong, Bedok and Tampines",
+  "North-East": "Serangoon, Hougang, Punggol",
+  North: "Woodlands, Yishun, Thomson",
+  West: "Jurong, Clementi and Bukit Batok",
+};
+
 export const REGION_INTROS: Record<string, string> = {
   Central:
     "Central Singapore has by far the densest cluster of confinement care — most of the island's dedicated confinement centres sit here, along Orchard, Novena, Newton, Toa Payoh and the Bukit Timah corridor. It's the region to start with if you want a residential centre stay, and the easiest for visiting family to reach.",
