@@ -20,14 +20,19 @@ export const metadata: Metadata = {
   description:
     "Compare verified confinement centres, nanny agencies, postnatal services and meal providers in Singapore.",
   icons: { icon: "/favicon.svg" },
-  ...(SITE_IS_PRIVATE && {
-    robots: {
-      index: false,
-      follow: false,
-      nocache: true,
-      googleBot: { index: false, follow: false, noimageindex: true },
-    },
-  }),
+  // While private, every page carries a noindex tag as a belt-and-braces
+  // partner to robots.txt. Once public the key is omitted entirely rather
+  // than set to index/follow, since that is already the crawler default.
+  ...(SITE_IS_PRIVATE
+    ? {
+        robots: {
+          index: false,
+          follow: false,
+          nocache: true,
+          googleBot: { index: false, follow: false, noimageindex: true },
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

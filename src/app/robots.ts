@@ -9,7 +9,16 @@ export default function robots(): MetadataRoute.Robots {
     return { rules: { userAgent: "*", disallow: "/" } };
   }
   return {
-    rules: { userAgent: "*", allow: "/" },
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      // Every canonical URL on this site is a clean path. The only query
+      // string the app ever produces is /compare/?ids=… , a user's transient
+      // shortlist — infinite permutations, no unique content, and the same
+      // page as /compare/. Filters and sorting are client-side state and
+      // never reach the URL, so no other parameter needs blocking.
+      disallow: ["/*?"],
+    },
     sitemap: `${SITE}/sitemap.xml`,
   };
 }
