@@ -1,7 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
+
+// The root layout declares index/follow sitewide, so this page must override
+// it — a 404 has no content worth ranking and is not in the sitemap. Without
+// this the layout's index/follow is inherited and contradicts the noindex
+// Next.js emits for not-found. `follow` stays on so the recovery links below
+// are still crawled.
+export const metadata: Metadata = {
+  title: "Page not found — ConfinementFinderSG",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

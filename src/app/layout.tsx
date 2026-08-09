@@ -20,19 +20,33 @@ export const metadata: Metadata = {
   description:
     "Compare verified confinement centres, nanny agencies, postnatal services and meal providers in Singapore.",
   icons: { icon: "/favicon.svg" },
-  // While private, every page carries a noindex tag as a belt-and-braces
-  // partner to robots.txt. Once public the key is omitted entirely rather
-  // than set to index/follow, since that is already the crawler default.
-  ...(SITE_IS_PRIVATE
+  // Inherited by every page. While private this is a noindex partner to
+  // robots.txt; once public it states index/follow explicitly. That is the
+  // crawler default either way, so this is a declaration of intent rather
+  // than a behaviour change — it makes the directive visible in the markup
+  // and to auditing tools instead of implied by its absence.
+  //
+  // Pages that must NOT be indexed override this locally (see not-found.tsx).
+  robots: SITE_IS_PRIVATE
     ? {
-        robots: {
-          index: false,
-          follow: false,
-          nocache: true,
-          googleBot: { index: false, follow: false, noimageindex: true },
-        },
+        index: false,
+        follow: false,
+        nocache: true,
+        googleBot: { index: false, follow: false, noimageindex: true },
       }
-    : {}),
+    : {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          // Let Google show full-length snippets and large image previews
+          // rather than truncating them at its default discretion.
+          "max-snippet": -1,
+          "max-image-preview": "large",
+          "max-video-preview": -1,
+        },
+      },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
