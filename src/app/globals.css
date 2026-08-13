@@ -322,6 +322,13 @@ table.data th[scope=row] { font-weight: 500; background: var(--cream); }
 .prose li { margin-bottom: 8px; }
 .prose blockquote { margin: 0 0 1.3em; padding: 14px 20px; background: var(--sage-lt); border-left: 3px solid var(--sage); border-radius: 0 10px 10px 0; }
 .prose blockquote p:last-child { margin-bottom: 0; }
+/* height:auto lets the intrinsic width/height attributes reserve the right
+   aspect ratio while the image still scales down — space is held, nothing shifts. */
+.posthero { display: block; width: 100%; height: auto; border-radius: 14px; margin: 0 0 1.8em; }
+.prose figure { margin: 0 0 1.6em; }
+.prose figure img { display: block; width: 100%; height: auto; border-radius: 14px; }
+.prose figcaption { margin-top: 9px; font-size: .88rem; color: var(--taupe); text-align: center; }
+.prose p > img { display: block; width: 100%; height: auto; border-radius: 14px; }
 .note { background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--rose); border-radius: 0 10px 10px 0; padding: 16px 20px; margin: 0 0 1.5em; font-size: .95rem; }
 .toc { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; margin: 0 0 2em; }
 .toc p { font-weight: 600; margin: 0 0 9px; font-size: .95rem; }

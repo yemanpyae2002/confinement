@@ -18,7 +18,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = getPost(slug);
   if (!p) return {};
-  return buildMetadata({ title: p.title_tag, description: p.description, path: p.url, ogType: "article" });
+  // A post with its own hero gets it as the social card; the rest keep the
+  // sitewide default that buildMetadata falls back to.
+  return buildMetadata({
+    title: p.title_tag,
+    description: p.description,
+    path: p.url,
+    ogType: "article",
+    ogImage: p.hero,
+  });
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -38,6 +46,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             url: p.url,
             datePublished: BUILD_DATE,
             dateModified: BUILD_DATE,
+            image: p.hero,
           }),
           breadcrumbLd([{ name: "Blog", url: "/blog/" }, { name: p.title }]),
           ...(p.faqs ? [faqLd(p.faqs)] : []),
@@ -53,6 +62,22 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <p className="byline">
               By the ConfinementFinderSG Editorial Team · Reviewed {BUILD_MONTH} · {p.reading_time} min read
             </p>
+
+            {p.hero && (
+              /* Above the fold, so it is the LCP element: fetched eagerly at high
+                 priority rather than lazily, which would delay it. Matches the
+                 plain-<img> approach used for listing photos. */
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className="posthero"
+                src={p.hero}
+                alt={p.hero_alt || ""}
+                width={1200}
+                height={800}
+                loading="eager"
+                fetchPriority="high"
+              />
+            )}
 
             {p.toc.length > 0 && (
               <nav className="toc" aria-label="Table of contents">

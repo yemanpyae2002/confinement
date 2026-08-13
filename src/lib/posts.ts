@@ -14,6 +14,7 @@ const ORDER = [
   "how-long-is-confinement-period",
   "what-is-a-confinement-nanny",
   "confinement-centre-vs-nanny-vs-diy",
+  "can-husband-stay-at-confinement-centre",
   "confinement-food-singapore",
 ];
 
@@ -27,6 +28,63 @@ function slugsOnDisk(): string[] {
 
 function wrapTables(html: string): string {
   return html.replace(/<table>/g, '<div class="tablewrap"><table class="data">').replace(/<\/table>/g, "</table></div>");
+}
+
+/** Read intrinsic pixel dimensions straight from a WebP header.
+ *
+ * Markdown gives us no way to declare a size, but shipping an <img> without
+ * width/height reserves no space and shifts the layout as each one loads.
+ * Reading the real numbers off disk keeps authoring to plain `![alt](src)`
+ * while still emitting explicit dimensions, so CLS stays at zero.
+ *
+ * Deliberately dependency-free: this runs during the build, and a header parse
+ * is cheaper and more predictable than pulling in an image library.
+ * Returns null for anything unrecognised, which downgrades gracefully. */
+function webpSize(file: string): { w: number; h: number } | null {
+  let buf: Buffer;
+  try {
+    buf = fs.readFileSync(file);
+  } catch {
+    return null;
+  }
+  if (buf.length < 30 || buf.toString("ascii", 0, 4) !== "RIFF" || buf.toString("ascii", 8, 12) !== "WEBP") {
+    return null;
+  }
+  const chunk = buf.toString("ascii", 12, 16);
+  // Extended format: 24-bit canvas dimensions, stored minus one.
+  if (chunk === "VP8X") {
+    return { w: buf.readUIntLE(24, 3) + 1, h: buf.readUIntLE(27, 3) + 1 };
+  }
+  // Lossless: 14 bits each, packed into 4 bytes after the 0x2f signature.
+  if (chunk === "VP8L" && buf[20] === 0x2f) {
+    const bits = buf.readUInt32LE(21);
+    return { w: (bits & 0x3fff) + 1, h: ((bits >> 14) & 0x3fff) + 1 };
+  }
+  // Lossy: dimensions follow the 3-byte sync code 0x9d 0x01 0x2a.
+  if (chunk === "VP8 " && buf[23] === 0x9d && buf[24] === 0x01 && buf[25] === 0x2a) {
+    return { w: buf.readUInt16LE(26) & 0x3fff, h: buf.readUInt16LE(28) & 0x3fff };
+  }
+  return null;
+}
+
+/** Give markdown images the attributes the rest of the site already sets by
+ * hand: explicit dimensions, lazy loading, async decoding. A standalone image
+ * arrives from remark wrapped in its own <p>; promote that to a <figure> so it
+ * is semantically a figure rather than a paragraph, and turn the optional
+ * markdown title — `![alt](src "caption")` — into a real <figcaption>. */
+function enhanceImages(html: string): string {
+  const withAttrs = html.replace(/<img([^>]*?)src="([^"]+)"([^>]*?)\/?>/g, (m, pre, src, post) => {
+    if (/\bwidth=/.test(m) || !src.startsWith("/")) return m;
+    const dim = webpSize(path.join(process.cwd(), "public", src));
+    const size = dim ? ` width="${dim.w}" height="${dim.h}"` : "";
+    return `<img${pre}src="${src}"${post}${size} loading="lazy" decoding="async">`;
+  });
+
+  return withAttrs.replace(/<p>(<img[^>]*>)<\/p>/g, (_m, img: string) => {
+    const title = /title="([^"]*)"/.exec(img);
+    const caption = title ? `<figcaption>${title[1]}</figcaption>` : "";
+    return `<figure>${img.replace(/\s*title="[^"]*"/, "")}${caption}</figure>`;
+  });
 }
 
 function extractToc(html: string): { id: string; text: string }[] {
@@ -64,6 +122,7 @@ export function getAllPosts(): Post[] {
     const processed = remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).processSync(content);
     let html = wrapTables(String(processed));
     html = addHeadingIds(html);
+    html = enhanceImages(html);
     const words = html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
     const meta = data as PostMeta;
     return {

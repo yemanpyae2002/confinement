@@ -92,12 +92,16 @@ export function articleLd(opts: {
   url: string;
   datePublished: string;
   dateModified: string;
+  image?: string;
 }): Json {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: opts.headline,
     description: opts.description,
+    // Google uses this for article rich results. Omitted rather than defaulted
+    // to the OG card, which is a branded graphic, not a picture of the subject.
+    ...(opts.image ? { image: [`${SITE}${opts.image}`] } : {}),
     datePublished: opts.datePublished,
     dateModified: opts.dateModified,
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${opts.url}` },

@@ -59,6 +59,10 @@ export interface PostMeta {
   cta_url: string;
   cta_label: string;
   faqs?: Faq[];
+  /** Lead image, e.g. /img/blog/slug.webp. Absent on older posts. */
+  hero?: string;
+  /** Required whenever `hero` is set — it becomes the image's alt text. */
+  hero_alt?: string;
 }
 
 export interface Post extends PostMeta {
