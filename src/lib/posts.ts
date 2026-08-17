@@ -16,6 +16,7 @@ const ORDER = [
   "confinement-centre-vs-nanny-vs-diy",
   "can-husband-stay-at-confinement-centre",
   "confinement-food-singapore",
+  "confinement-herbal-bath",
 ];
 
 function slugsOnDisk(): string[] {
