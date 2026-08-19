@@ -1,6 +1,14 @@
 import Link from "next/link";
+import { Facebook, Instagram, Youtube, Linkedin } from "lucide-react";
 import { REGIONS, slugifyRegion, YEAR } from "@/lib/listings";
 import { getAllPosts } from "@/lib/posts";
+
+const SOCIAL_LINKS = [
+  { href: "https://www.facebook.com/ConfinementFinderSG/", label: "Facebook", Icon: Facebook },
+  { href: "https://www.instagram.com/confinementfinder/", label: "Instagram", Icon: Instagram },
+  { href: "https://www.youtube.com/@confinementfinderSG", label: "YouTube", Icon: Youtube },
+  { href: "https://www.linkedin.com/company/confinement-finder-sg/", label: "LinkedIn", Icon: Linkedin },
+];
 
 export default function Footer() {
   const footerPosts = getAllPosts()
@@ -22,6 +30,13 @@ export default function Footer() {
             <Link className="btn btn-sm btn-rose" href="/#get-matched">
               Get matched free
             </Link>
+            <div className="fsocial">
+              {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Follow us on ${label}`}>
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
           </div>
           <div>
             <h4>By region</h4>
